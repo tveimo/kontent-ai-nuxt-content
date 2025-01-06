@@ -11,4 +11,19 @@ This driver is not complete; there's further things required for full-fledged pu
 
 When debugging your content, it might help looking at the content of `.nuxt/content-cache/content-index.json` which will show the mapping from paths to content items.
 
+## How to test
+
+do a 
+
+```yarn install```
+
+followed by a
+
+```yarn dev``` 
+
+and open up http://localhost:3000 in your browser. 
+
+The current project uses a test project I'm currently hosting. I'll publish an export of the project shortly, so that you can import it into your own environment with kontent.ai, and start exploring with your own modifications.
+
+
 Icons from the google material icons fontset. Lorem Ipsum from https://loremipsum.io/. Photos by Tranmautritam: https://www.pexels.com https://www.instagram.com/tranmautritam 
