@@ -25,5 +25,10 @@ and open up http://localhost:3000 in your browser.
 
 The current project uses a test project I'm currently hosting. I'll publish an export of the project shortly, so that you can import it into your own environment with kontent.ai, and start exploring with your own modifications.
 
+Demo: I've configured a netlify deploy at https://kontent-ai-nuxt-content.netlify.app/ with this git repository using
+
+```yarn run generate```
+
+as the build command.
 
 Icons from the google material icons fontset. Lorem Ipsum from https://loremipsum.io/. Photos by Tranmautritam: https://www.pexels.com https://www.instagram.com/tranmautritam 
