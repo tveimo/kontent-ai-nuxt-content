@@ -36,8 +36,6 @@ const fetchContent = async (opts) => {
   const timestamp = new Date(Date.now() - refresh*60000);
   if (!lastModified || refresh == -1 || timestamp.getTime() > new Date(lastModified).getTime()) {
 
-    let oldItems = cachedItems
-    // cachedItems = {}
     console.time("kontent.ai: fetching took");
     let count = 0;
 
@@ -53,8 +51,6 @@ const fetchContent = async (opts) => {
       });
       console.log("kontent.ai count: " + count + " items");
     }
-
-
 
     console.timeEnd("kontent.ai: fetching took");
 
@@ -124,7 +120,7 @@ function getKey(key) {
   if (key == "") {
     return "index";
   }
-  return key; //.replace("$","");
+  return key;
 }
 
 // kontent.ai specific code
@@ -157,8 +153,6 @@ async function fetch(opts, lastUpdate) {
     let item = items[key];
 
     item.type = item.system.type;
-    // item.meta = {}; // type: item.system.type };
-    // item.path = '';
 
     // There's a range of options here, for preprocessing data or not processing at all
     // We can even convert the data to markdown format (the item key would then need the ".md" suffix).
@@ -188,7 +182,7 @@ async function fetch(opts, lastUpdate) {
 function traverseItem(pathPrefix, kontentItems, parentPath, item, items) {
   let path = parentPath + (parentPath.length > 0 ? '/' : '') + item.elements.slug.value;
   kontentItems[path.replaceAll("/", ":") + ".json"] = item;
-  // item.path = pathPrefix + path;
+
   const subpages = item?.elements?.subpages?.value;
   if (subpages?.length > 0) {
     for (const subpage of subpages) {
@@ -225,8 +219,6 @@ async function buildItems(projectId, apiKey, usePreviewMode, lastUpdate) {
         params: {
           "system.collection": "default",
           ...(lastUpdate ? { "system.last_modified[gt]": lastUpdate } : {}),
-          // limit: "10",
-          // depth: 2,
         },
         method: "GET",
         ...(xContinuation
