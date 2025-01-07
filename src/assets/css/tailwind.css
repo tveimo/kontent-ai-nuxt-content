@@ -22,7 +22,7 @@
     }
 
     aside {
-        @apply max-w-72 min-w-48;
+        @apply max-w-72 min-w-64;
     }
 
     /* forms */
