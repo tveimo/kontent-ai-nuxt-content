@@ -2,12 +2,22 @@
   <aside aria-label="Aside">
     <ul class="listbox" v-if="inSection?.length > 0">
       <li class="heading">In this section</li>
-        <div v-for="link in inSection" :key="link._path" >
-          <li :class="{selected: link._path == page._path}" v-if="link._path != '/'"><a :href="link._path">
-            {{ link.title }}
-          </a></li>
-        </div>
+        <template v-for="link in inSection" :key="link._path" >
+          <li :class="{selected: link._path == page._path}" v-if="link._path != '/' && link.type != 'section'">
+            <a :href="link._path">{{ link.title }}</a>
+          </li>
+        </template>
     </ul>
+
+    <ul class="listbox" v-if="inSection?.length > 0">
+      <li class="heading">Subsections</li>
+      <template v-for="link in inSection" :key="link._path">
+        <li :class="{selected: link._path == page._path}" v-if="link._path != '/' && link.type == 'section'">
+          <a :href="link._path">{{ link.title }}</a>
+        </li>
+      </template>
+    </ul>
+
   </aside>
 </template>
 

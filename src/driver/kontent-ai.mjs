@@ -153,6 +153,7 @@ async function fetch(opts, lastUpdate) {
     let item = items[key];
 
     item.type = item.system.type;
+    item.navigation = { type: item.system.type };
 
     // There's a range of options here, for preprocessing data or not processing at all
     // We can even convert the data to markdown format (the item key would then need the ".md" suffix).
