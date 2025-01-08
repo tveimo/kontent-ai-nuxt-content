@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-  const { page, navigation2 } = useContent();
+  const { page, navigation } = useContent();
   const { navDirFromPath } = useContentHelpers();
 
   let path = page.value._path;
@@ -32,8 +32,6 @@
     section = false;
     path = path.substring(0, path.lastIndexOf("/"));
   }
-
-  const { data: navigation } = await useAsyncData(path + '_navigation', () => fetchContentNavigation())
 
   let inSection = navDirFromPath(path, navigation.value);
   if (!inSection) {
