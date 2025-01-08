@@ -12,10 +12,9 @@
           <div v-if="doc.elements?.body" v-html="doc.elements?.body?.value"></div>
 
           <img v-if="doc.elements?.images && doc.elements.images.value.length > 0"
-               :src="doc.elements.images.value[0].url" :class="[{'max-h-64': doc.type == 'section'}, 'py-2 w-full object-cover']" />
+               :class="[{'max-h-64': doc.type == 'section'}, 'py-2 w-full object-cover']" :src="doc.elements.images.value[0].url" />
 
-          <!-- for section, we render articles in the section, with title and description -->
-
+          <!-- for sections / homepage, we render article excerpts with title and description -->
           <template v-if="page.type == 'section' || page.type == 'homepage'">
             <h4><span v-if="articles.length == 0">No </span>Articles in this Section</h4>
             <section class="grid grid-cols-2">
@@ -33,19 +32,19 @@
         <Aside />
       </div>
     </ContentDoc>
-
   </main>
 </template>
-<script setup lang="ts">
-const { page } = useContent();
-const {data: articles} = await useAsyncData(() => queryContent(
-  {
-    where: {
-      $and: [
-        { _path: {$contains: page.value._path }},
-        { type: {$in: ['article', 'product'] }}
-      ]
-    }
-  }).find()
-)
+<script lang="ts" setup>
+  const { page } = useContent();
+  // select articles / products to show excerpts for, based on parentPath
+  const {data: articles} = await useAsyncData(() => queryContent(
+    {
+      where: {
+        $and: [
+          { parentPath: { $eq: page.value._path }},
+          { type: { $in: ['article', 'product'] }}
+        ]
+      }
+    }).find()
+  )
 </script>

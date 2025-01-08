@@ -45,7 +45,7 @@ const fetchContent = async (opts) => {
 
       Object.keys(results).forEach(key => {
         const ci = results[key];
-        cachedItems[key] = ci
+        cachedItems[key] = ci;
         items[key] = ci;
         count++;
       });
@@ -67,14 +67,14 @@ const fetchContent = async (opts) => {
 }
 
 export default defineDriver(opts => {
-  let lastCheck = 0
+  let lastCheck = 0;
   let syncPromise;
 
   let kontentItems = {};
 
   const syncContent = async () => {
     if ((lastCheck + opts.ttl * 1000) > Date.now()) {
-      return
+      return;
     }
 
     if (!syncPromise) {
@@ -117,7 +117,7 @@ export default defineDriver(opts => {
 });
 
 function getKey(key) {
-  if (key == "") {
+  if (key === "") {
     return "index";
   }
   return key;
@@ -129,7 +129,7 @@ async function fetch(opts, lastUpdate) {
   let items =  await buildItems(opts.driverOptions.projectId, opts.driverOptions.apiKey,
     opts.driverOptions.usePreviewMode, lastUpdate);
 
-  let kontentItems = {}
+  let kontentItems = {};
 
   // This project has urls constructed from the structure of nesting index pages and articles
   // We traverse from the homepage down each index page until we find an article or a product page.
@@ -143,33 +143,33 @@ async function fetch(opts, lastUpdate) {
 
   const pathPrefix = opts.prefix + !opts.prefix || !opts.prefix.endsWith("/") ? "/" : "";
 
-  if (!items || Object.keys(items).length == 0) {
+  if (!items || Object.keys(items).length === 0) {
     return kontentItems;
   }
 
 
-  for (const key of Object.keys(items)) {
-
-    let item = items[key];
+  for (const item of Object.values(items)) {
 
     item.type = item.system.type;
-    item.navigation = { type: item.system.type };
-
-    // There's a range of options here, for preprocessing data or not processing at all
-    // We can even convert the data to markdown format (the item key would then need the ".md" suffix).
+    item.navigation = {type: item.system.type};
 
     item.title = item.elements?.title?.value;
     item.description = item.elements?.description?.value;
+  }
+
+  // There's a range of options here, for preprocessing data or not processing at all
+  // We can even convert the data to Markdown format (the item key would then need the ".md" suffix).
+
+  for (const item of Object.values(items)) {
 
     if (item.system.type === "homepage") {
       const subpages = item?.elements?.subpages?.value;
 
-      // item.path = pathPrefix + 'index';
       kontentItems['index.json'] = item;
 
       if (subpages?.length > 0) {
         for (const subpage of subpages) {
-          const codename = subpage.system.codename
+          const codename = subpage.system.codename;
           if (items[codename]) {
             traverseItem(pathPrefix, kontentItems, '', items[codename], items)
           }
@@ -182,21 +182,27 @@ async function fetch(opts, lastUpdate) {
 
 function traverseItem(pathPrefix, kontentItems, parentPath, item, items) {
   let path = parentPath + (parentPath.length > 0 ? '/' : '') + item.elements.slug.value;
-  kontentItems[path.replaceAll("/", ":") + ".json"] = item;
+
+  // Since articles / products can be linked from multiple sections, we need to clone before setting parentPath.
+  // We also have the option to have the parentPath be plural.
+
+  const clone = structuredClone(item);
+  clone.parentPath = '/' + parentPath;
+  kontentItems[path.replaceAll("/", ":") + ".json"] = clone;
 
   const subpages = item?.elements?.subpages?.value;
   if (subpages?.length > 0) {
     for (const subpage of subpages) {
       const codename = subpage.system.codename;
       if (items[codename]) {
-        traverseItem(pathPrefix, kontentItems, path, items[codename], items)
+        traverseItem(pathPrefix, kontentItems, path, items[codename], items);
       }
     }
   }
 }
 
 async function buildItems(projectId, apiKey, usePreviewMode, lastUpdate) {
-  const ret = {}
+  const ret = {};
 
   let xContinuation = null;
 
