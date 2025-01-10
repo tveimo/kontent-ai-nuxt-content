@@ -27,9 +27,7 @@
 
   let path = page.value._path;
 
-  let section = true;
   if (page.value.type == 'article' || page.value.type == 'product' && path.lastIndexOf("/") > 0) {
-    section = false;
     path = path.substring(0, path.lastIndexOf("/"));
   }
 
