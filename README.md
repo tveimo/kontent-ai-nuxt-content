@@ -31,4 +31,8 @@ Demo: I've configured a netlify deploy at https://kontent-ai-nuxt-content.netlif
 
 as the build command.
 
-Icons from the google material icons fontset. Lorem Ipsum from https://loremipsum.io/. Photos by Tranmautritam: https://www.pexels.com https://www.instagram.com/tranmautritam 
+I have added a backup of the kontent.ai project used for the demo site here: [kontent-backup-6-2-2025-11-55.zip 1.3MB](https://github.com/tveimo/kontent-ai-nuxt-content/raw/refs/heads/main/kontent-backup-6-2-2025-11-55.zip). You can use the [kontent.ai backup manager](https://github.com/kontent-ai-bot/backup-manager-js) to restore it into an empty kontent.ai project if you want to replicate the project on your own.
+
+Icons from the [google material icons fontset](https://fonts.google.com/icons).
+[Lorem Ipsum generator](https://loremipsum.io/).
+[Photos by Tranmautritam](https://www.instagram.com/tranmautritam) @ [Pexels](https://www.pexels.com).
